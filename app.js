@@ -13,19 +13,21 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+//route pour toutes les pages de webpages, pour quel ne soit pas accessible
+app.get('/pages/*', (req, res) => res.sendFile(path.join(pathPublic+'/pages/notfound.html')));
+
+//chemin d'accès au dossier public
+app.use(express.static(pathPublic));
+
 //page d'accueil lorsque l'utilisateur s'est connecté
 app.get('/index', (req, res) => {
     res.sendFile(path.join(pathPublic+'/pages/index.html'));
 });
+
 //page d'accueil lorsque l'utilisateur s'est connecté
 app.get('/', (req, res) => {
   res.sendFile(path.join(pathPublic+'/pages/index.html'));
 });
-
-//route pour toutes les pages de webpages, pour quel ne soit pas accessible
-app.get('/pages/*', (req, res) => res.sendFile(path.join(pathPublic+'/pages/notfound.html')));
-
-//app.use(express.static(path.join(__dirname, 'public')));
 
 //laissé ces lignes après toutes les routes :  ----------------------------------------
 // catch 404 and forward to error handler
