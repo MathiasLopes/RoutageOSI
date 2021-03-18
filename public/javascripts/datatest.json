@@ -1,0 +1,29 @@
+{
+    "nodes": [
+      {"id": "Myriel", "group": 1},
+      {"id": "Napoleon", "group": 1},
+      {"id": "Mlle.Baptistine", "group": 1},
+      {"id": "Mme.Magloire", "group": 1},
+      {"id": "Labarre", "group": 2},
+      {"id": "Valjean", "group": 2},
+      {"id": "Tholomyes", "group": 3},
+      {"id": "Listolier", "group": 3},
+      {"id": "Fameuil", "group": 3},
+      {"id": "Blacheville", "group": 3},
+      {"id": "Favourite", "group": 3},
+      {"id": "Dahlia", "group": 3},
+      {"id": "Zephine", "group": 3},
+      {"id": "Fantine", "group": 3},
+      {"id": "Mme.Thenardier", "group": 4},
+      {"id": "Thenardier", "group": 4},
+      {"id": "Javert", "group": 4}
+    ],
+    "links": [
+      {"source": "Napoleon", "target": "Myriel", "value": 1},
+      {"source": "Mlle.Baptistine", "target": "Myriel", "value": 1},
+      {"source": "Valjean", "target": "Labarre", "value": 1},
+      {"source": "Valjean", "target": "Mme.Magloire", "value": 3},
+      {"source": "Valjean", "target": "Mlle.Baptistine", "value": 3},
+      {"source": "Javert", "target": "Valjean", "value": 3}
+    ]
+  }
