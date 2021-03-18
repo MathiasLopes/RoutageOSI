@@ -20,7 +20,7 @@
     ],
     "links": [
       {"source": "Napoleon", "target": "Myriel", "value": 1},
-      {"source": "Mlle.Baptistine", "target": "Myriel", "value": 1},
+      {"source": "Mlle.Baptistine", "target": "Myriel", "value": 2},
       {"source": "Valjean", "target": "Labarre", "value": 1},
       {"source": "Valjean", "target": "Mme.Magloire", "value": 3},
       {"source": "Valjean", "target": "Mlle.Baptistine", "value": 3},

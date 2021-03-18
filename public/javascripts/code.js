@@ -15,7 +15,12 @@ d3.json("/javascripts/datatest.json", function(error, _graph) {
   initializeSimulation();
 });
 
-
+function reloadSimulationWithJson(json){
+  d3.selectAll("g").remove();
+  graph = json;
+  initializeDisplay();
+  initializeSimulation();
+}
 
 //////////// FORCE SIMULATION //////////// 
 
