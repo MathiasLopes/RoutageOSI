@@ -21,11 +21,11 @@ function getArrayNoeuds(arrayNoeud){
     var creeNoeud = true;
 
     while(creeNoeud){
-        if(arrayNoeud.length < 2)
+        if(arrayNoeud.length < 3)
         {
             arrayNoeud.push(getUnNoeudAleatoire(arrayNoeud.length + 1));
         }
-        else if(arrayNoeud.length >= 2 && arrayNoeud.length < 20)
+        else if(arrayNoeud.length >= 3 && arrayNoeud.length < 20)
         {
             if((nbNoeudFixed && arrayNoeud.length < nbNoeuds) || (!nbNoeudFixed && entierAleatoire(0, 1)))
                 arrayNoeud.push(getUnNoeudAleatoire(arrayNoeud.length + 1));
