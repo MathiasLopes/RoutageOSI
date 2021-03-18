@@ -17,6 +17,10 @@ app.use(cookieParser());
 app.get('/index', (req, res) => {
     res.sendFile(path.join(pathPublic+'/pages/index.html'));
 });
+//page d'accueil lorsque l'utilisateur s'est connecté
+app.get('/', (req, res) => {
+  res.sendFile(path.join(pathPublic+'/pages/index.html'));
+});
 
 //route pour toutes les pages de webpages, pour quel ne soit pas accessible
 app.get('/pages/*', (req, res) => res.sendFile(path.join(pathPublic+'/pages/notfound.html')));
