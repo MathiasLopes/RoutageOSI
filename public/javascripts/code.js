@@ -8,12 +8,12 @@ var link, node, circles, label;
 var graph;
 
 // load the data
-d3.json("/javascripts/datatest.json", function(error, _graph) {
+/*d3.json("/javascripts/datatest.json", function(error, _graph) {
   if (error) throw error;
   graph = _graph;
   initializeDisplay();
   initializeSimulation();
-});
+});*/
 
 function reloadSimulationWithJson(json){
   d3.selectAll("g").remove();
@@ -50,7 +50,7 @@ forceProperties = {
         enabled: true,
         strength: .7,
         iterations: 1,
-        radius: 5
+        radius: 100
     },
     forceX: {
         enabled: false,
@@ -64,7 +64,7 @@ forceProperties = {
     },
     link: {
         enabled: true,
-        distance: 30,
+        distance: 100,
         iterations: 1
     }
 }

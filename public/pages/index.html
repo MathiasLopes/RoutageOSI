@@ -6,9 +6,9 @@
 <body>
     <div>
         <h1>Routage OSI</h1>
-        <div class="button" onclick="getJsonRandom();">Réseau aléatoire</div>
-        <label>Nombre de noeud aléatoire (de 3 à 20) : <input id="nbNoeudAleatoire" type="text" placeholder="Nombre de noeud aléatoire" value="10" /></label>
-        <label>Activer le nombre de noeud : <input type="checkbox" id="activeNombreNoeudDefinie" /></label>
+        <label>Nombre de noeud aléatoire (de 3 à 20) : <input id="nbNoeudAleatoire" type="text" placeholder="Nombre de noeud aléatoire" value="10" /></label><br>
+        <label>Activer le nombre de noeud : <input type="checkbox" id="activeNombreNoeudDefinie" /></label><br>
+        <div class="button" onclick="getJsonRandom();">Réseau aléatoire</div><br><br>
     </div>
     <div id="conteneur">
         <div class="controls">
@@ -58,8 +58,8 @@
               </label>
               <label title="Size of nodes">
                 radius
-                <output id="collide_radiusSliderOutput">5</output>
-                <input type="range" min="0" max="100" value="5" step="1" oninput="d3.select('#collide_radiusSliderOutput').text(value); forceProperties.collide.radius=value; updateAll();">
+                <output id="collide_radiusSliderOutput">100</output>
+                <input type="range" min="0" max="100" value="100" step="1" oninput="d3.select('#collide_radiusSliderOutput').text(value); forceProperties.collide.radius=value; updateAll();">
               </label>
               <label title="Higher values increase rigidity of the nodes (WARNING: high values are computationally expensive)">
                 iterations
@@ -100,8 +100,8 @@
               <p><label><input type="checkbox" checked onchange="forceProperties.link.enabled = this.checked; updateAll();"> link</label> Sets link length</p>
               <label title="The force will push/pull nodes to make links this long">
                 distance
-                <output id="link_DistanceSliderOutput">30</output>
-                <input type="range" min="0" max="100" value="30" step="1" oninput="d3.select('#link_DistanceSliderOutput').text(value); forceProperties.link.distance=value; updateAll();">
+                <output id="link_DistanceSliderOutput">100</output>
+                <input type="range" min="0" max="100" value="100" step="1" oninput="d3.select('#link_DistanceSliderOutput').text(value); forceProperties.link.distance=value; updateAll();">
               </label>
               <label title="Higher values increase rigidity of the links (WARNING: high values are computationally expensive)">
                 iterations
