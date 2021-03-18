@@ -7,6 +7,9 @@ function getJsonRandom(){
     //nb lien par noeud = 1 à 5
     //nb de noeud pour un réseau = 3 à 20
 
+    //recuperation des options sélectionné par l'utilisateur
+    getParametreJsonRandomByUser();
+
     var jsonRandom = {"nodes": [],"links": []};
 
     jsonRandom.nodes = getArrayNoeuds(jsonRandom.nodes);
@@ -14,6 +17,17 @@ function getJsonRandom(){
 
     console.log(jsonRandom);
     reloadSimulationWithJson(jsonRandom);
+}
+
+function getParametreJsonRandomByUser(){
+    nbNoeudFixed = $("#activeNombreNoeudDefinie").is(":checked");
+
+    console.log(nbNoeudFixed);
+
+    if(nbNoeudFixed)
+        nbNoeuds = parseInt($("#nbNoeudAleatoire").val());
+
+    console.log(nbNoeuds);
 }
 
 function getArrayNoeuds(arrayNoeud){
@@ -95,7 +109,8 @@ function testIfLiaisonExiste(arrayLink, link){
 
     for(var i = 0; i < arrayLink.length; i++)
     {
-        if(arrayLink[i].source == link.source && arrayLink[i].target == link.target)
+        if((arrayLink[i].source == link.source && arrayLink[i].target == link.target) ||
+            (arrayLink[i].source == link.target && arrayLink[i].target == link.source))
             return false;
     }
 

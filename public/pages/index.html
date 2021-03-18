@@ -1,11 +1,14 @@
 <html>
 <head>
     <link href="/stylesheets/style.css" rel="stylesheet">
+    <script src="/javascripts/jquery.js"></script>
 </head>
 <body>
     <div>
         <h1>Routage OSI</h1>
         <div class="button" onclick="getJsonRandom();">Réseau aléatoire</div>
+        <label>Nombre de noeud aléatoire (de 3 à 20) : <input id="nbNoeudAleatoire" type="text" placeholder="Nombre de noeud aléatoire" value="10" /></label>
+        <label>Activer le nombre de noeud : <input type="checkbox" id="activeNombreNoeudDefinie" /></label>
     </div>
     <div id="conteneur">
         <div class="controls">
