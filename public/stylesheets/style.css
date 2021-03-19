@@ -58,3 +58,46 @@ text {
   display: inline-block;
   color:white;
 }
+
+.flexbox{
+  display: flex;
+  flex-direction: column;
+}
+
+.flexbox .row{
+  display: flex;
+}
+
+.reglage{
+  padding: 5px 10px;
+  position: relative;
+}
+
+.reglage .button{
+  text-align: center;
+    width: calc(100% - 65px);
+    margin-top: 13px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.titre{
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.unNoeud{
+  position: relative;
+}
+
+.removeElement{
+  color:red;
+  float: right;
+}
+
+.listenoeuds, .listeliaisons{
+  height: 130px;
+  overflow: auto;
+}
