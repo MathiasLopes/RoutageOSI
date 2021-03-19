@@ -9,6 +9,7 @@ html{ width: 100%; font-family: sans-serif; }
 .controls {
   flex-basis: 200px;
   padding: 0 5px;
+  display: none;
 }
 .controls .force {
   background-color:#eee;
@@ -32,6 +33,7 @@ html{ width: 100%; font-family: sans-serif; }
 svg {
   flex-basis: 100%;
   min-width: 200px;
+  min-height: 450px;
 }
 .links line {
   stroke: #999;
