@@ -75,11 +75,7 @@ text {
 
 .reglage .button{
   text-align: center;
-    width: calc(100% - 65px);
-    margin-top: 13px;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
+  margin-left: 13px;
 }
 
 .titre{
