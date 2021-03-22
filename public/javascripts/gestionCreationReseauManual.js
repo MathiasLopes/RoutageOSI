@@ -55,7 +55,13 @@ function removeNoeudMe(nom){
         }
     }
 
+    //on met à jour la liste des liaisons en effacant les liaisons contenant le noeud effacé
+    jsonReseauManual = removeLiaisonWithNoeudRemoved(nom, jsonReseauManual);
+
+    //on rafraichit les listes de noeuds pour créer des liaisons
     refreshListeNoeudForLiaisonOption();
+    //on rafraichit la liste des liaisons
+    reloadListeLinksForReseauManual();
 
     if(!noeudSupprimer)
         alert("Le noeud que vous essayer de supprimer n'existe pas");
@@ -71,6 +77,7 @@ function getNoeudAlreaydExist(jsonNoeud, nom){
     return false;
 }
 
+//recharge les choix des neouds dans les listes de choix possible
 function refreshListeNoeudForLiaisonOption(){
     
     $("#selectNoeud1").html('<option value="">Choix 1</option>');
@@ -122,6 +129,16 @@ function addLiaisonToList(){
 
 }
 
+function reloadListeLinksForReseauManual(){
+
+    $(".listeliaisons").html("");
+
+    for(var i = 0; i < jsonReseauManual.links.length; i++){
+        addLinksToListeHtml(jsonReseauManual.links[i]);
+    }
+
+}
+
 function testIfLiaisonExisteV2(arrayLink, link){
 
 
@@ -167,10 +184,12 @@ function removeLinkMe(sourcetarget, source, target){
 
 }
 
+//methode qui permet de recharger le graph avec le nouveau json du ReseauManual
 function generateMyReseauManual(){
     reloadSimulationWithJson(cloneArrayObjectForReseauSchema(jsonReseauManual));
 }
 
+//permet de clonner un json pour les reseaux (noeud, link)
 function cloneArrayObjectForReseauSchema(jsonToClone){
 
 
@@ -192,4 +211,21 @@ function cloneArrayObjectForReseauSchema(jsonToClone){
 
     return arrayToReturn;
 
+}
+
+//permet d'enlever toutes les liaisons d'un json contenant le neoud passé en parametre
+function removeLiaisonWithNoeudRemoved(noeudRemoved, jsonToRemoveLiaison){
+
+    var jsonWithLinksRemoved = [];
+
+    for(var i = 0; i < jsonToRemoveLiaison.links.length; i++){
+
+        var link = jsonToRemoveLiaison.links[i];
+
+        if(!(link.source == noeudRemoved || link.target == noeudRemoved))
+            jsonWithLinksRemoved.push(link);
+    }
+
+    jsonToRemoveLiaison.links = jsonWithLinksRemoved;
+    return jsonToRemoveLiaison;
 }
