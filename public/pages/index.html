@@ -17,7 +17,27 @@
               placeholder="Nombre de noeud aléatoire" value="10" /></label><br>
           <label>Activer le nombre de noeud : <input type="checkbox" id="activeNombreNoeudDefinie" /></label><br>
           <p>
-          <div class="button" onclick="getJsonRandom();">Réseau aléatoire</div>
+            <div class="button" onclick="getJsonRandom();">Réseau aléatoire</div>
+          </p>
+          <p>
+            <h3>Afficher le chemin parcourut avec un algorithme :</h3>
+            <div>
+              <div>Algorithme : <select id="choixAlgo">
+                                  <option value="dijkstras">Dijkstras</option>
+                                </select>
+              </div>
+              <div style="margin-top: 5px;">
+                Choix des noeuds :
+                <select id="noeud1ForAlgo">
+                  <option value="">Choix 1</option>
+                </select>
+                <->
+                <select id="noeud2ForAlgo">
+                  <option value="">Choix 2</option>
+                </select>
+              </div>
+              <div class="button" style="margin-top: 8px;" onclick="launchPathColor();">Voir le chemin emprunté</div>
+            </div>
           </p>
         </div>
         <div class="row">
@@ -32,6 +52,7 @@
               <select id="selectNoeud1">
                 <option value="">Choix 1</option>
               </select>
+              <->
               <select id="selectNoeud2">
                 <option value="">Choix 2</option>
               </select>

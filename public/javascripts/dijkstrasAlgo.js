@@ -109,9 +109,7 @@ function getGraphForDijkstrasAlgo(graph) {
             }else if(link.target == node.id){
                 jsonForDijkstras[node.id][link.source] = 1; 
             }
-
         }
-
     }
 
     return jsonForDijkstras;
