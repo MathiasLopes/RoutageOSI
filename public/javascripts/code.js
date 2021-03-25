@@ -291,6 +291,11 @@ function launchPathColor() {
                     var linksToColor = getLinksToColor(completePath);
                     launchIntervalAlgorithmColor(linksToColor);
                     break;
+                case "potentielTache" :
+                    var completePath = findShortestPath(getGraphForPotentielTacheAlgo(jsonGraphActual), noeud1, noeud2);
+                    var linksToColor = getLinksToColor(completePath);
+                    launchIntervalAlgorithmColor(linksToColor);
+                    break;
                 default:
                     alert("L'algorithme choisi n'est pas géré");
                     break;
