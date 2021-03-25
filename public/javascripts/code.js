@@ -1,3 +1,5 @@
+var jsonGraphActual = null;
+
 var svg = d3.select("svg"),
     width = +svg.node().getBoundingClientRect().width,
     height = +svg.node().getBoundingClientRect().height;
@@ -10,6 +12,7 @@ var graph;
 function reloadSimulationWithJson(json){
   d3.selectAll("g").remove();
   graph = json;
+  jsonGraphActual = cloneArrayObjectForReseauSchema(json);
   initializeDisplay();
   initializeSimulation();
 }
