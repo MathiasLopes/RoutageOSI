@@ -4,7 +4,7 @@ var nbNoeudFixed = false;
 
 function getJsonRandom() {
 
-    //ponderation des arcs = 0-9
+    //ponderation des arcs = 1-9
     //nb lien par noeud = 1 à 5
     //nb de noeud pour un réseau = 3 à 20
 
