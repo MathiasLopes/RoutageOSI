@@ -94,6 +94,6 @@ text {
 }
 
 .listenoeuds, .listeliaisons{
-  height: 130px;
+  height: 255px;
   overflow: auto;
 }
