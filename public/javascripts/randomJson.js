@@ -1,5 +1,5 @@
+
 var nbNoeuds = 5;
-var nbPonderation = 1;
 var nbNoeudFixed = false;
 
 function getJsonRandom() {
@@ -16,7 +16,12 @@ function getJsonRandom() {
     jsonRandom.nodes = getArrayNoeuds(jsonRandom.nodes);
     jsonRandom.links = getArrayLinks(jsonRandom.links, jsonRandom.nodes);
 
-    reloadSimulationWithJson(jsonRandom);
+    //si la ponderation des arcs n'est pas bonne, on recrée completement le json
+    if(!calculPonderationDesArcs(jsonRandom)){
+        getJsonRandom();
+    }else{
+        reloadSimulationWithJson(jsonRandom);
+    }
 }
 
 function getParametreJsonRandomByUser() {
@@ -24,7 +29,6 @@ function getParametreJsonRandomByUser() {
 
     if (nbNoeudFixed) {
         nbNoeuds = parseInt($("#nbNoeudAleatoire").val());
-        //nbPonderation = parseInt($("#inputPonderationArc").val());
     }
 }
 
@@ -65,13 +69,9 @@ function getArrayLinks(arrayLinks, arrayNoeuds) {
 
     //on parcourt chaque noeud pour ajouter les liens entre noeuds
     for (var i = 0; i < arrayNoeuds.length; i++) {
+
         //on recupere le nombre de link que l'on souhaite créé (aleatoirement) pour ce reseau
-        var nbLinkToCreate = 1;
-        if (nbPonderation == 9) {
-            nbLinkToCreate = entierAleatoire(1, 5);
-        }else{
-            nbLinkToCreate = getNbLinksWithPonderation(nbPonderation);
-        }
+        var nbLinkToCreate = entierAleatoire(1, 5);
 
         //pour chacun de ces liens 
         for (var j = 0; j < nbLinkToCreate; j++) {
@@ -137,4 +137,82 @@ function getCloneArrayNoeudWithNbLinkAt0(arrayToClone) {
     }
 
     return arrayToReturn;
+}
+
+function calculPonderationDesArcs(json){
+
+    var ponderation = -1;
+
+    //on recupere le nombre de noeud ayant x liaisons puis on calcule la pondération
+    var jsonForPonderation = getNbLienForNoeuds(json);
+    
+    //calcule de la ponderation
+    ponderation = (
+                    (1*jsonForPonderation.noeudWith1Lien)+
+                    (2*jsonForPonderation.noeudWith2Lien)+
+                    (3*jsonForPonderation.noeudWith3Lien)+
+                    (4*jsonForPonderation.noeudWith4Lien)+
+                    (5*jsonForPonderation.noeudWith5Lien)
+                  )/(jsonForPonderation.noeudWith1Lien +
+                     jsonForPonderation.noeudWith2Lien +
+                     jsonForPonderation.noeudWith3Lien +
+                     jsonForPonderation.noeudWith4Lien +
+                     jsonForPonderation.noeudWith5Lien);
+
+    console.log("ponderation : " + ponderation);
+
+    //si le calcul de pondération est plus petit que 1 ou plus grand que 9 on renvoie false
+    return (ponderation >= 1 && ponderation <= 9);
+
+}
+
+function getNbLienForNoeuds(json){
+
+    var jsonForPonderation = {
+        noeudWith1Lien: 0,
+        noeudWith2Lien: 0,
+        noeudWith3Lien: 0,
+        noeudWith4Lien: 0,
+        noeudWith5Lien: 0
+    }
+
+    //pour chaque noeud on va compter son nombre de liaison
+    for(var i = 0; i < json.nodes.length; i++){
+
+        var node = json.nodes[i];
+        var nbLiens = 0;
+
+        for(var j = 0; j < json.links.length; j++){
+
+            var link = json.links[j];
+
+            if(link.source == node.id || link.target == node.id)
+                nbLiens++;
+        }
+
+        //en fonction du nb de lien, on ajoute 1 dans le bon champ
+        switch(nbLiens){
+            case 1:
+                jsonForPonderation.noeudWith1Lien++;
+                break;
+            case 2:
+                jsonForPonderation.noeudWith2Lien++;
+                break;
+            case 3:
+                jsonForPonderation.noeudWith3Lien++;
+                break;
+            case 4:
+                jsonForPonderation.noeudWith4Lien++;
+                break;
+            case 5:
+                jsonForPonderation.noeudWith5Lien++;
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    return jsonForPonderation;
+
 }
