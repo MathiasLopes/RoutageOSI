@@ -15,8 +15,6 @@ function addNoeudToList(){
 
     if(noeud != ""){
 
-        if(jsonReseauManual.nodes.length <= 20){
-
             //on verifie que le nom du noeud n'existe pas deja
             if(!getNoeudAlreaydExist(jsonReseauManual.nodes, noeud))
             {
@@ -30,9 +28,6 @@ function addNoeudToList(){
             }else{
                 alert("Un noeud avec ce nom existe déjà");
             }
-        }else{
-            alert("Vous avez atteint la limite de 20 noeuds");
-        }
     }else{
         alert("Le noeud n'a pas de nom");
     }
@@ -107,8 +102,6 @@ function addLiaisonToList(){
     if(choix1 != "" && choix2 != ""){
         if(choix1 != choix2){
 
-            if(nbLiaisonByNoeudIsOk(choix1, choix2)){
-
                 var link = {
                     source: choix1,
                     target: choix2
@@ -127,9 +120,6 @@ function addLiaisonToList(){
                     alert("La liaison que vous souhaitez ajouter existe deja");
                 }
 
-            }else{
-                alert("L'un des deux noeuds sélectionnés a atteint la limite de 5 liaisons");
-            }
         }else{
             alert("Vous ne pouvez pas créer une liaison avec le même noeud");
         }
@@ -137,24 +127,6 @@ function addLiaisonToList(){
         alert("Vous devez sélectionné un noeud dans les deux listes pour créer une liaison");
     }
 
-}
-
-//permet de savoir si une liaison comporte un noeud qui contient deja 5 liaisons
-function nbLiaisonByNoeudIsOk(node1, node2){
-
-    var countNbLinksForNode1 = 0;
-    var countNbLinksForNode2 = 0;
-    for(var i =0; i < jsonReseauManual.links.length; i++){
-        var link = jsonReseauManual.links[i];
-
-        if(link.source == node1 || link.target == node1)
-            countNbLinksForNode1++;
-
-        if(link.source == node2 || link.target == node2)
-            countNbLinksForNode2++;
-    }
-
-    return (countNbLinksForNode1 < 5 && countNbLinksForNode2 < 5);
 }
 
 function reloadListeLinksForReseauManual(){
