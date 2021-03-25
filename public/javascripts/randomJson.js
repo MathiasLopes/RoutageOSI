@@ -15,19 +15,15 @@ function getJsonRandom(){
     jsonRandom.nodes = getArrayNoeuds(jsonRandom.nodes);
     jsonRandom.links = getArrayLinks(jsonRandom.links, jsonRandom.nodes);
 
-    console.log(jsonRandom);
     reloadSimulationWithJson(jsonRandom);
 }
 
 function getParametreJsonRandomByUser(){
     nbNoeudFixed = $("#activeNombreNoeudDefinie").is(":checked");
 
-    console.log(nbNoeudFixed);
-
     if(nbNoeudFixed)
         nbNoeuds = parseInt($("#nbNoeudAleatoire").val());
 
-    console.log(nbNoeuds);
 }
 
 function getArrayNoeuds(arrayNoeud){

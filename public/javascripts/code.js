@@ -7,14 +7,6 @@ var link, node, circles, label;
 // the data - an object with nodes and links
 var graph;
 
-// load the data
-/*d3.json("/javascripts/datatest.json", function(error, _graph) {
-  if (error) throw error;
-  graph = _graph;
-  initializeDisplay();
-  initializeSimulation();
-});*/
-
 function reloadSimulationWithJson(json){
   d3.selectAll("g").remove();
   graph = json;
@@ -152,8 +144,6 @@ function initializeDisplay() {
         .attr('x', 6)
         .attr('y', 3);
         
-    
-
   // visualize the graph
   updateDisplay();
 }
@@ -166,12 +156,34 @@ function updateDisplay() {
         //.attr("stroke-width", forceProperties.charge.enabled==false ? 0 : Math.abs(forceProperties.charge.strength)/15);
 
     link
+        .attr("stroke", "#999")
         .attr("stroke-width", forceProperties.link.enabled ? 1 : .5)
         .attr("opacity", forceProperties.link.enabled ? 1 : 0);
+
+    launchIntervalAlgorithmColor();
+}
+
+var intervalAlgorithmColor = null;
+function launchIntervalAlgorithmColor(){
+
+    if(intervalAlgorithmColor != null)
+        clearInterval(intervalAlgorithmColor);
+
+    intervalAlgorithmColor = setInterval(function(){
+
+        resetColorOfAllLinks();
+        $(link._groups[0][entierAleatoire(0, link._groups[0].length - 1)]).attr("stroke", "red");
+
+    }, 1000);
+}
+
+function resetColorOfAllLinks(){
+    link.attr("stroke", "#999");
 }
 
 // update the display positions after each simulation tick
 function ticked() {
+
     link
         .attr("x1", function(d) { return d.source.x; })
         .attr("y1", function(d) { return d.source.y; })
