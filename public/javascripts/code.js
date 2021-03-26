@@ -303,7 +303,7 @@ function launchPathColor() {
         }else
             alert("Les noeuds sélectionnés doivent être différents");
     }else
-        alert("Vous devez sélectionner  un noeud de début et un neoud de fin");
+        alert("Vous devez sélectionner un noeud de début et un neoud de fin");
 
 }
 
