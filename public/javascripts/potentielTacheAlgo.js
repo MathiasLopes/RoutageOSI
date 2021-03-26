@@ -20,7 +20,7 @@ let longestDistanceNode = (distances, visited) => {
 };
 
 //methode qui permet de récupérer la distance la plus courte entre deux noeuds
-let findShortestPath = (graph, startNode, endNode) => {
+let findLongestPath = (graph, startNode, endNode) => {
 
     // suivre les distances depuis le nœud de départ en utilisant un objet de hachage.
     let distances = {};
