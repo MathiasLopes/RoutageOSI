@@ -96,6 +96,8 @@ function getGraphForDijkstrasAlgo(graph) {
 
     var jsonForDijkstras = {};
 
+    console.log(graph);
+
     //pour chaque noeud on va faire la liste des liaisons avec la distance
     for (var i = 0; i < graph.nodes.length; i++) {
         var node = graph.nodes[i];
@@ -105,12 +107,13 @@ function getGraphForDijkstrasAlgo(graph) {
             var link = graph.links[j];
             
             if(link.source == node.id){
-                jsonForDijkstras[node.id][link.target] = 1; 
+                jsonForDijkstras[node.id][link.target] = link.distance; 
             }else if(link.target == node.id){
-                jsonForDijkstras[node.id][link.source] = 1; 
+                jsonForDijkstras[node.id][link.source] = link.distance; 
             }
         }
     }
 
+    console.log(jsonForDijkstras);
     return jsonForDijkstras;
 }

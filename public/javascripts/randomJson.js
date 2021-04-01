@@ -81,7 +81,8 @@ function getArrayLinks(arrayLinks, arrayNoeuds) {
             //on crée le json de liaison
             var link = {
                 source: arrayNoeuds[i].id,
-                target: arrayNoeuds[nbNoeudToLink].id
+                target: arrayNoeuds[nbNoeudToLink].id,
+                distance: entierAleatoire(1, 9)
             }
 
             //on s'assure que les noeuds que l'on va linké n'ont pas trop de liaison (5 max pour chacun) + on s'assure que la liaison n'existe pas deja

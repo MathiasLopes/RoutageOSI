@@ -5,7 +5,7 @@ var svg = d3.select("svg"),
     height = +svg.node().getBoundingClientRect().height;
 
 // svg objects
-var link, node, circles, label;
+var link, node, circles, label, contentLink, labelForLink;
 // the data - an object with nodes and links
 var graph;
 
@@ -119,16 +119,24 @@ function updateForces() {
 // generate the svg objects and force simulation
 function initializeDisplay() {
 
+    contentLink = svg.append("g")
+                    .attr("class", "links")
+                    .selectAll("line")
+                    .data(graph.links)
+                    .enter().append("g");
+                    
     // set the data and properties of link lines
-    link = svg.append("g")
-        .attr("class", "links")
-        .selectAll("line")
-        .data(graph.links)
-        .enter()
-        .append("line")
-        .attr("data-source", function (d){ return d.source; })
-        .attr("data-target", function (d){ return d.target; });
+    link = contentLink.append("line")
+            .attr("data-source", function (d){ return d.source; })
+            .attr("data-target", function (d){ return d.target; });
 
+    labelForLink = contentLink.append('text')
+                        .text(function(d){
+                            console.log(d);
+                            return d.distance;
+                        })
+                        .attr('x', 6)
+                        .attr('y',3);
 
     // set the data and properties of node circles
     node = svg.append("g")
@@ -211,11 +219,52 @@ function resetColorOfAllLinks() {
 // update the display positions after each simulation tick
 function ticked() {
 
-    link
+    contentLink
         .attr("x1", function (d) { return d.source.x; })
         .attr("y1", function (d) { return d.source.y; })
         .attr("x2", function (d) { return d.target.x; })
-        .attr("y2", function (d) { return d.target.y; });
+        .attr("y2", function (d) { return d.target.y; })
+        .attr("transform", function (d) {
+            var x = 0;
+            if(d.source.x > d.target.x)
+                x = (d.target.x + ((d.source.x - d.target.x)/2));
+            else
+                x = (d.source.x + ((d.target.x - d.source.x)/2));
+
+            var y = 0;
+            if(d.source.y > d.target.y)
+                y = (d.target.y + ((d.source.y - d.target.y)/2));
+            else
+                y = (d.source.y + ((d.target.y - d.source.y)/2));
+
+            return "translate(" + x + "," + y + ")";
+        })
+
+    link
+        .attr("x1", function (d) { 
+            if(d.source.x > d.target.x)
+                return (-((d.source.x - d.target.x)/2));
+            else
+                return -(-((d.target.x - d.source.x)/2));
+         })
+        .attr("y1", function (d) { 
+            if(d.source.y > d.target.y)
+                return (-((d.source.y - d.target.y)/2));
+            else
+                return -(-((d.target.y - d.source.y)/2));
+         })
+        .attr("x2", function (d) { 
+            if(d.source.x > d.target.x)
+                return ((d.source.x - d.target.x)/2);
+            else
+                return -((d.target.x - d.source.x)/2);
+         })
+        .attr("y2", function (d) { 
+            if(d.source.y > d.target.y)
+                return ((d.source.y - d.target.y)/2);
+            else
+                return -((d.target.y - d.source.y)/2); 
+        })
 
     node
         .attr("transform", function (d) {

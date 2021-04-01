@@ -186,7 +186,6 @@ function generateMyReseauManual() {
 //permet de clonner un json pour les reseaux (noeud, link)
 function cloneArrayObjectForReseauSchema(jsonToClone) {
 
-
     var arrayToReturn = getJsonToClearJsonReseau();
 
     for (var i = 0; i < jsonToClone.nodes.length; i++) {
@@ -199,7 +198,7 @@ function cloneArrayObjectForReseauSchema(jsonToClone) {
         arrayToReturn.links.push({
             source: jsonToClone.links[i].source,
             target: jsonToClone.links[i].target,
-
+            distance : jsonToClone.links[i].distance
         });
     }
 
