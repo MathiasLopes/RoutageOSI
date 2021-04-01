@@ -180,6 +180,8 @@
               <select id="selectNoeud2" class="selectToSelectNoeudForLiaison">
                 <option value="">Choix 2</option>
               </select>
+              <div class="title_distance">Distance :</div>
+              <div class="contentInputDistance"><input type="text" id="inputDistanceForLiaison" placeholder="Distance" /></div>
               <div class="button" style="display: inline-block;" onclick="addLiaisonToList();">Ajouter</div>
           </div>
         </div>
@@ -213,14 +215,15 @@
             </select>
           </div>
           <div style="margin-top: 5px;">
-            Noeud d'arrivé : 
+            Noeud d'arrivé :
             <select id="noeud2ForAlgo" class="selectChoixPathColor">
               <option value="">Choix 2</option>
             </select>
           </div>
         </div>
 
-        <div class="button" id="btLaunchPathColor" style="margin-top: 8px;" onclick="launchPathColor();">Traverser le réseau</div>
+        <div class="button" id="btLaunchPathColor" style="margin-top: 8px;" onclick="launchPathColor();">Traverser le
+          réseau</div>
       </div>
     </div>
 

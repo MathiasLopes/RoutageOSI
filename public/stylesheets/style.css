@@ -276,7 +276,7 @@ text {
 }
 
 .selectToSelectNoeudForLiaison{
-    width: calc(50% - 65px);
+    width: calc(50% - 155px);
     padding: 5px;
 }
 
@@ -327,4 +327,21 @@ text {
 
 .selectChoixPathColor{
     padding: 5px;
+}
+
+.contentInputDistance{
+    display: inline-block;
+}
+
+.contentInputDistance input{
+    padding: 5px;
+}
+
+.title_distance{
+    font-size: 13px;
+    margin-bottom: 1px;
+    display: inline-block;
+    margin-top: 4px;
+    position: absolute;
+    top: 2px;
 }

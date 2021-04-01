@@ -94,33 +94,40 @@ function addLiaisonToList() {
 
     var choix1 = $("#selectNoeud1").val();
     var choix2 = $("#selectNoeud2").val();
+    var distance = parseInt($("#inputDistanceForLiaison").val());
 
-    if (choix1 != "" && choix2 != "") {
-        if (choix1 != choix2) {
+    if (distance >= 1 && distance <= 9) {
+        if (choix1 != "" && choix2 != "") {
+            if (choix1 != choix2) {
 
-            var link = {
-                source: choix1,
-                target: choix2
-            }
+                var link = {
+                    source: choix1,
+                    target: choix2,
+                    distance: distance
+                }
 
-            //si la laison n'existe pas deja
-            if (!testIfLiaisonExisteV2(jsonReseauManual.links, link)) {
+                //si la laison n'existe pas deja
+                if (!testIfLiaisonExisteV2(jsonReseauManual.links, link)) {
 
-                //on ajoute la liaison dans le json
-                jsonReseauManual.links.push(link);
+                    //on ajoute la liaison dans le json
+                    jsonReseauManual.links.push(link);
 
-                //on ajoute la liaison dans le code html
-                addLinksToListeHtml(link);
+                    //on ajoute la liaison dans le code html
+                    addLinksToListeHtml(link);
+
+                } else {
+                    alert("La liaison que vous souhaitez ajouter existe deja");
+                }
 
             } else {
-                alert("La liaison que vous souhaitez ajouter existe deja");
+                alert("Vous ne pouvez pas créer une liaison avec le même noeud");
             }
-
         } else {
-            alert("Vous ne pouvez pas créer une liaison avec le même noeud");
+            alert("Vous devez sélectionné un noeud dans les deux listes pour créer une liaison");
         }
-    } else {
-        alert("Vous devez sélectionné un noeud dans les deux listes pour créer une liaison");
+    }
+    else {
+        alert("La distance est invalide (doit se situer entre 1 et 9)");
     }
 
 }
@@ -140,7 +147,7 @@ function testIfLiaisonExisteV2(arrayLink, link) {
 
     for (var i = 0; i < arrayLink.length; i++) {
         if (((arrayLink[i].source == link.source && arrayLink[i].target == link.target) ||
-                (arrayLink[i].source == link.target && arrayLink[i].target == link.source)) ||
+            (arrayLink[i].source == link.target && arrayLink[i].target == link.source)) ||
             ((arrayLink[i].source.id == link.source && arrayLink[i].target.id == link.target) ||
                 (arrayLink[i].source.id == link.target && arrayLink[i].target.id == link.source)))
             return true;
@@ -151,7 +158,7 @@ function testIfLiaisonExisteV2(arrayLink, link) {
 }
 
 function addLinksToListeHtml(link) {
-    $(".listeliaisons").prepend("<div class='unLink' data-sourcetarget='" + link.source + link.target + "'><div class='text_unLink'>" + link.source + " <-> " + link.target + "</div><span class='removeElement' onclick='removeLinkMe(\"" + link.source + link.target + "\", \"" + link.source + "\", \"" + link.target + "\");'>X</span></div>");
+    $(".listeliaisons").prepend("<div class='unLink' data-sourcetarget='" + link.source + link.target + "'><div class='text_unLink'>" + link.source + " <-> " + link.target + " (distance : " + link.distance + ")</div><span class='removeElement' onclick='removeLinkMe(\"" + link.source + link.target + "\", \"" + link.source + "\", \"" + link.target + "\");'>X</span></div>");
 }
 
 function removeLinkMe(sourcetarget, source, target) {
@@ -198,7 +205,7 @@ function cloneArrayObjectForReseauSchema(jsonToClone) {
         arrayToReturn.links.push({
             source: jsonToClone.links[i].source,
             target: jsonToClone.links[i].target,
-            distance : jsonToClone.links[i].distance
+            distance: jsonToClone.links[i].distance
         });
     }
 

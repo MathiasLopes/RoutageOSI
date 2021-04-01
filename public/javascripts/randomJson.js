@@ -16,12 +16,7 @@ function getJsonRandom() {
     jsonRandom.nodes = getArrayNoeuds(jsonRandom.nodes);
     jsonRandom.links = getArrayLinks(jsonRandom.links, jsonRandom.nodes);
 
-    //si la ponderation des arcs n'est pas bonne, on recrée completement le json
-    if(!calculPonderationDesArcs(jsonRandom)){
-        getJsonRandom();
-    }else{
-        reloadSimulationWithJson(jsonRandom);
-    }
+    reloadSimulationWithJson(jsonRandom);
 }
 
 function getParametreJsonRandomByUser() {
@@ -82,7 +77,7 @@ function getArrayLinks(arrayLinks, arrayNoeuds) {
             var link = {
                 source: arrayNoeuds[i].id,
                 target: arrayNoeuds[nbNoeudToLink].id,
-                distance: entierAleatoire(1, 9)
+                distance: entierAleatoire(1, 9) //ponderation des arcs
             }
 
             //on s'assure que les noeuds que l'on va linké n'ont pas trop de liaison (5 max pour chacun) + on s'assure que la liaison n'existe pas deja
