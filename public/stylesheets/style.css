@@ -167,7 +167,6 @@ text {
 
 .listenoeuds, .listeliaisons {
     width: 100%;
-    height: 185px;
     overflow: auto;
 }
 
