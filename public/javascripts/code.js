@@ -336,3 +336,24 @@ function getLinksToColor(path){
 
     return links;
 }
+
+function setConteneurActiveTo(obj, conteneurToShow){
+
+    $(".btConteneur").removeClass("active");
+    $(obj).addClass("active");
+    $(".conteneurForBt").hide();
+
+    switch(conteneurToShow)
+    {
+        case "reseaualeatoire":
+            $("#conteneurReseauAleatoire").css("display", "flex");
+            break;
+        case "creermonreseau":
+            $("#conteneurCreerMonReseau").css("display", "flex");
+            break;
+        case "parcourirlereseau":
+            $("#conteneurParcourirLeReseau").css("display", "flex");
+            break;
+    }
+
+}

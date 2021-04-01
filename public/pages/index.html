@@ -8,73 +8,7 @@
 
 <body>
   <div>
-    <h1>Routage OSI</h1>
-    <div class="flexbox">
-      <div class="row">
-        <div class="reglage">
-          <div class="titre">Créer un réseau aléatoire :</div>
-          <!--<label>Nombre de noeud aléatoire (de 3 à 20) : <input id="nbNoeudAleatoire" type="text" placeholder="Nombre de noeud aléatoire" value="10" /></label><br>
-          <label>Activer le nombre de noeud : <input type="checkbox" id="activeNombreNoeudDefinie" /></label><br>-->
-          <p>
-            <div class="button" onclick="getJsonRandom();">Réseau aléatoire</div>
-          </p>
-          <p>
-            <h3>Afficher le chemin parcourut avec un algorithme :</h3>
-            <div>
-              <div>Algorithme : <select id="choixAlgo">
-                                  <option value="dijkstras">Dijkstras</option>
-                                  <option value="potentielTache">Méthode potentiel tâche</option>
-                                </select>
-              </div>
-              <div style="margin-top: 5px;">
-                Choix des noeuds :
-                <select id="noeud1ForAlgo">
-                  <option value="">Choix 1</option>
-                </select>
-                <->
-                <select id="noeud2ForAlgo">
-                  <option value="">Choix 2</option>
-                </select>
-              </div>
-              <div class="button" style="margin-top: 8px;" onclick="launchPathColor();">Voir le chemin emprunté</div>
-            </div>
-          </p>
-        </div>
-        <div class="row">
-          <div class="reglage">
-            <div class="titre">Créer mon propre réseau :</div>
-            <label>Nom du noeud : <input type="text" id="noeudToAdd" value="" /></label>
-            <p>
-            <div class="button" onclick="addNoeudToList();">Ajouter</div>
-            </p>
-            <div style="margin-top: 15px;">
-              Liaison :
-              <select id="selectNoeud1">
-                <option value="">Choix 1</option>
-              </select>
-              <->
-              <select id="selectNoeud2">
-                <option value="">Choix 2</option>
-              </select>
-            </div>
-            <p>
-            <div class="button" onclick="addLiaisonToList();">Ajouter</div>
-            </p>
-            <div class="button" style="align-self: center;" onclick="generateMyReseauManual();">Générer mon réseau</div>
-          </div>
-          <div class="reglage">
-            Liste des noeuds ajoutés :
-            <div class="listenoeuds">
-            </div>
-          </div>
-          <div class="reglage">
-            Liste des liaisons existantes ajoutés :
-            <div class="listeliaisons">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+
 
     <div id="conteneur">
       <div class="controls">
@@ -204,6 +138,90 @@
         </div>
       </div>
       <svg></svg>
+    </div>
+
+    <div class="flexbox_forBtConteneur">
+      <div class="btConteneur active" onclick="setConteneurActiveTo(this, 'reseaualeatoire')">Réseau aléatoire</div>
+      <div class="btConteneur" onclick="setConteneurActiveTo(this, 'creermonreseau')">Créer mon réseau</div>
+      <div class="btConteneur" onclick="setConteneurActiveTo(this, 'parcourirlereseau')">Parcourir le réseau</div>
+    </div>
+    <div class="flexbox">
+
+      <div class="row conteneurForBt" id="conteneurReseauAleatoire">
+        <div class="reglage">
+          <!--<div class="titre">Créer un réseau aléatoire :</div>-->
+          <!--<label>Nombre de noeud aléatoire (de 3 à 20) : <input id="nbNoeudAleatoire" type="text" placeholder="Nombre de noeud aléatoire" value="10" /></label><br>
+          <label>Activer le nombre de noeud : <input type="checkbox" id="activeNombreNoeudDefinie" /></label><br>-->
+          <p>
+          <div class="button btGenereReseauAleatoire" onclick="getJsonRandom();">Générer un réseau aléatoire</div>
+          </p>
+        </div>
+
+      </div>
+      <div class="row conteneurForBt" id="conteneurCreerMonReseau">
+
+        <div class="button" id="btGenereMonReseau" style="align-self: center;" onclick="generateMyReseauManual();">
+          Générer mon réseau</div>
+
+        <div class="conteneurChampForCreerMonReseau">
+          <div class="reglage">
+            <div class="content_field_NoeudToAdd">
+              <div style="font-size:13px;margin-bottom: 4px;">Nom du noeud à ajouter :</div>
+              <input type="text" placeholder="Nom du noeud" id="noeudToAdd" value="" />
+              <div class="button" onclick="addNoeudToList();">Ajouter</div>
+            </div>
+          </div>
+          <div class="reglage">
+            <div style="font-size:13px;margin-bottom: 4px;">Liaison à ajouter :</div>
+            <select id="selectNoeud1" class="selectToSelectNoeudForLiaison">
+              <option value="">Choix 1</option>
+            </select>
+            <->
+              <select id="selectNoeud2" class="selectToSelectNoeudForLiaison">
+                <option value="">Choix 2</option>
+              </select>
+              <div class="button" style="display: inline-block;" onclick="addLiaisonToList();">Ajouter</div>
+          </div>
+        </div>
+
+        <div class="conteneurListeForCreerMonReseau">
+          <div class="reglage">
+            <div class="title_liste">Liste des noeuds existants</div>
+            <div class="listenoeuds">
+            </div>
+          </div>
+          <div class="reglage">
+            <div class="title_liste">Liste des liaisons existantes</div>
+            <div class="listeliaisons">
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="row conteneurForBt" id="conteneurParcourirLeReseau">
+        <div>Algorithme : <select id="choixAlgo">
+            <option value="dijkstras">Dijkstras</option>
+            <option value="potentielTache">Méthode potentiel tâche</option>
+          </select>
+        </div>
+
+        <div style="margin-top: 5px;">
+          <div>
+            Noeud de départ :
+            <select id="noeud1ForAlgo" class="selectChoixPathColor">
+              <option value="">Choix 1</option>
+            </select>
+          </div>
+          <div style="margin-top: 5px;">
+            Noeud d'arrivé : 
+            <select id="noeud2ForAlgo" class="selectChoixPathColor">
+              <option value="">Choix 2</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="button" id="btLaunchPathColor" style="margin-top: 8px;" onclick="launchPathColor();">Traverser le réseau</div>
+      </div>
     </div>
 
     <script src="/javascripts/d3.js"></script>
