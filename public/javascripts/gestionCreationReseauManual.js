@@ -1,13 +1,17 @@
+//json de base du réseau manuel
 var jsonReseauManual = { "nodes": [], "links": [] };
 
+//permet de remettre à zero le json de réseau manuel
 function clearJsonReseauManual() {
     jsonReseauManual = getJsonToClearJsonReseau();
 }
 
+//renvoi un json au format réseau manuel vide
 function getJsonToClearJsonReseau() {
     return { "nodes": [], "links": [] };
 }
 
+//ajoute un noeud dans la liste des noeuds du reseau de l'utilisateur
 function addNoeudToList() {
 
     var noeud = $("#noeudToAdd").val();
@@ -31,10 +35,12 @@ function addNoeudToList() {
     }
 }
 
+//ajoute un noeud dans la liste html des noeuds du reseau de l'utilisateur
 function addNoeudToListeHtml(nom) {
     $(".listenoeuds").prepend("<div class='unNoeud' data-name='" + nom + "'><div class='text_unNoeud'>" + nom + "</div><span class='removeElement' onclick='removeNoeudMe(\"" + nom + "\");'>X</span></div>");
 }
 
+//supprime le noeud ayant le nom passé en parametre
 function removeNoeudMe(nom) {
 
     var noeudSupprimer = false;
@@ -65,6 +71,7 @@ function removeNoeudMe(nom) {
 
 }
 
+//renvoie true ou false si le noeud passé en parametre existe ou non dans le json de noeud passé en parametre
 function getNoeudAlreaydExist(jsonNoeud, nom) {
     for (var i = 0; i < jsonNoeud.length; i++) {
         if (jsonNoeud[i].id == nom)
@@ -90,6 +97,7 @@ function refreshListeNoeudForLiaisonOption() {
 
 }
 
+//ajoute une liaison dans la liste de liaison de l'utilisateur
 function addLiaisonToList() {
 
     var choix1 = $("#selectNoeud1").val();
@@ -132,6 +140,7 @@ function addLiaisonToList() {
 
 }
 
+//recharge la liste html des liaisons de l'utilisateur
 function reloadListeLinksForReseauManual() {
 
     $(".listeliaisons").html("");
@@ -142,8 +151,8 @@ function reloadListeLinksForReseauManual() {
 
 }
 
+//renvoie true ou false si la liaison passé en parametre existe ou non dans le json de liaison passé en parametre
 function testIfLiaisonExisteV2(arrayLink, link) {
-
 
     for (var i = 0; i < arrayLink.length; i++) {
         if (((arrayLink[i].source == link.source && arrayLink[i].target == link.target) ||
@@ -157,10 +166,12 @@ function testIfLiaisonExisteV2(arrayLink, link) {
 
 }
 
+//ajoute la liaison passé en parametre dans la liste html des liaisons de l'utilisateur
 function addLinksToListeHtml(link) {
     $(".listeliaisons").prepend("<div class='unLink' data-sourcetarget='" + link.source + link.target + "'><div class='text_unLink'>" + link.source + " <-> " + link.target + " (distance : " + link.distance + ")</div><span class='removeElement' onclick='removeLinkMe(\"" + link.source + link.target + "\", \"" + link.source + "\", \"" + link.target + "\");'>X</span></div>");
 }
 
+//supprime une liaison
 function removeLinkMe(sourcetarget, source, target) {
 
     var linkSupprimer = false;

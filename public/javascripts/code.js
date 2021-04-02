@@ -9,6 +9,7 @@ var link, node, circles, label, contentLink, labelForLink;
 // the data - an object with nodes and links
 var graph;
 
+//recharge le graph completement avec le json passé en parametre en tant que json de données pour le réseau
 function reloadSimulationWithJson(json) {
     d3.selectAll("g").remove();
     graph = json;
@@ -67,21 +68,20 @@ forceProperties = {
 
 // add forces to the simulation
 function initializeForces() {
+
     // add forces and associate each with a name
     simulation
         .force("link", d3.forceLink())
         .force("charge", d3.forceManyBody())
         .force("center", d3.forceCenter())
         .force("collide", d3.forceCollide())
-    /*.force("forceX", d3.forceX())
-    .force("forceY", d3.forceY());*/
+
     // apply properties to each of the forces
     updateForces();
 }
 
 // apply new force properties
 function updateForces() {
-
 
     // get each force by name and update the properties
     simulation.force("center")
@@ -100,19 +100,11 @@ function updateForces() {
         .strength(forceProperties.collide.strength * forceProperties.collide.enabled)
         .radius(forceProperties.collide.radius)
         .iterations(forceProperties.collide.iterations);
-    /*simulation.force("forceX")
-        .strength(forceProperties.forceX.strength * forceProperties.forceX.enabled)
-        .x(width * forceProperties.forceX.x);
-    simulation.force("forceY")
-        .strength(forceProperties.forceY.strength * forceProperties.forceY.enabled)
-        .y(height * forceProperties.forceY.y);*/
 
     // updates ignored until this is run
     // restarts the simulation (important if simulation has already slowed down)
     simulation.alpha(1).restart();
 }
-
-
 
 //////////// DISPLAY ////////////
 
@@ -132,7 +124,6 @@ function initializeDisplay() {
 
     labelForLink = contentLink.append('text')
                         .text(function(d){
-                            console.log(d);
                             return d.distance;
                         })
                         .attr('x', 6)
@@ -166,11 +157,8 @@ function initializeDisplay() {
 
 // update the display based on the forces (but not positions)
 function updateDisplay() {
-    //node
-    //.attr("r", forceProperties.collide.radius)
-    //.attr("stroke", forceProperties.charge.strength > 0 ? "blue" : "red")
-    //.attr("stroke-width", forceProperties.charge.enabled==false ? 0 : Math.abs(forceProperties.charge.strength)/15);
-
+    
+    //on met en gris les lignes
     link
         .attr("stroke", "#999")
         .attr("stroke-width", forceProperties.link.enabled ? 1 : .5)
@@ -178,6 +166,7 @@ function updateDisplay() {
 
 }
 
+//interval permettant de changer la couleur des lignes en fonction du path donnée en parametre
 var intervalAlgorithmColor = null;
 function launchIntervalAlgorithmColor(linksToColor) {
 
@@ -212,6 +201,7 @@ function launchIntervalAlgorithmColor(linksToColor) {
     }, 1000);
 }
 
+//permet de remettre toutes les lignes à leur couleur de base (ici le gris)
 function resetColorOfAllLinks() {
     link.attr("stroke", "#999");
 }
@@ -225,6 +215,7 @@ function ticked() {
         .attr("x2", function (d) { return d.target.x; })
         .attr("y2", function (d) { return d.target.y; })
         .attr("transform", function (d) {
+            //on calcul le point x et y de deplacement des conteneur des lignes pour qu'elles s'affichent au bon endroit dans tous les cas
             var x = 0;
             if(d.source.x > d.target.x)
                 x = (d.target.x + ((d.source.x - d.target.x)/2));
@@ -240,6 +231,7 @@ function ticked() {
             return "translate(" + x + "," + y + ")";
         })
 
+    //on calcule les points x1, x2, y1, y2 pour permettre un affichage centré des distances sur les lignes
     link
         .attr("x1", function (d) { 
             if(d.source.x > d.target.x)
@@ -274,35 +266,27 @@ function ticked() {
     d3.select('#alpha_value').style('flex-basis', (simulation.alpha() * 100) + '%');
 }
 
-
-
 //////////// UI EVENTS ////////////
-
 function dragstarted(d) {
     if (!d3.event.active) simulation.alphaTarget(0.3).restart();
     d.fx = d.x;
     d.fy = d.y;
 }
-
 function dragged(d) {
     d.fx = d3.event.x;
     d.fy = d3.event.y;
 }
-
 function dragended(d) {
     if (!d3.event.active) simulation.alphaTarget(0);
     d.fx = null;
     d.fy = null;
 }
-
 // update size-related forces
 d3.select(window).on("resize", function () {
     width = +svg.node().getBoundingClientRect().width;
     height = +svg.node().getBoundingClientRect().height;
     updateForces();
 });
-
-
 // convenience function to update everything (run after UI input)
 function updateAll() {
     updateForces();
@@ -311,7 +295,6 @@ function updateAll() {
 
 //met à jour les noeuds possible dans les select
 function updateNodesInSelectedForPathAndAlgo() {
-
     var htmlToAdd = "";
 
     htmlToAdd += '<option value="">Choix</option>'
@@ -369,13 +352,9 @@ function getLinksToColor(path){
 
         for(var j = 0; j < jsonGraphActual.links.length; j++){
 
-            if(jsonGraphActual.links[j].source == path[i] && jsonGraphActual.links[j].target == path[i+1])
-            {
-                liaisonExist = true;
-                links.push(jsonGraphActual.links[j]);
-            }
-
-            if(jsonGraphActual.links[j].target == path[i] && jsonGraphActual.links[j].source == path[i+1])
+            //si la liaison est retrouvé dans le chemin, l'ajoute dans le tableau de liaison que l'on souhaite utilisé pour le chemin de couleur
+            if((jsonGraphActual.links[j].source == path[i] && jsonGraphActual.links[j].target == path[i+1]) || 
+               (jsonGraphActual.links[j].target == path[i] && jsonGraphActual.links[j].source == path[i+1]))
             {
                 liaisonExist = true;
                 links.push(jsonGraphActual.links[j]);
@@ -386,6 +365,7 @@ function getLinksToColor(path){
     return links;
 }
 
+//permet d'afficher le bon conteneur quand on souhaite changer de conteneur (reseau aleatoire, creer mon reseau, etc..)
 function setConteneurActiveTo(obj, conteneurToShow){
 
     $(".btConteneur").removeClass("active");

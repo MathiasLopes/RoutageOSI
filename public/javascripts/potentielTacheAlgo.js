@@ -27,8 +27,6 @@ let findLongestPath = (graph, startNode, endNode) => {
     distances[endNode] = "Infinity";
     distances = Object.assign(distances, graph[startNode]);
 
-    console.log(distances);
-
     // suivre les chemins en utilisant un objet de hachage
     let parents = { endNode: null };
     for (let child in graph[startNode]) {

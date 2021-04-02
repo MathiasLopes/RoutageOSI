@@ -27,8 +27,6 @@ let findShortestPath = (graph, startNode, endNode) => {
     distances[endNode] = "Infinity";
     distances = Object.assign(distances, graph[startNode]);
 
-    console.log(distances);
-
     // suivre les chemins en utilisant un objet de hachage
     let parents = { endNode: null };
     for (let child in graph[startNode]) {
@@ -96,8 +94,6 @@ function getGraphForDijkstrasAlgo(graph) {
 
     var jsonForDijkstras = {};
 
-    console.log(graph);
-
     //pour chaque noeud on va faire la liste des liaisons avec la distance
     for (var i = 0; i < graph.nodes.length; i++) {
         var node = graph.nodes[i];
@@ -114,6 +110,5 @@ function getGraphForDijkstrasAlgo(graph) {
         }
     }
 
-    console.log(jsonForDijkstras);
     return jsonForDijkstras;
 }

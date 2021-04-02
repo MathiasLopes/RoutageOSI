@@ -1,15 +1,10 @@
 
-var nbNoeuds = 5;
-var nbNoeudFixed = false;
-
+//renvoie un reseau aleatoire sous forme de json comprehensible par le graph d3
 function getJsonRandom() {
 
     //ponderation des arcs = 1-9
     //nb lien par noeud = 1 à 5
     //nb de noeud pour un réseau = 3 à 20
-
-    //recuperation des options sélectionné par l'utilisateur
-    getParametreJsonRandomByUser();
 
     var jsonRandom = { "nodes": [], "links": [] };
 
@@ -19,14 +14,7 @@ function getJsonRandom() {
     reloadSimulationWithJson(jsonRandom);
 }
 
-function getParametreJsonRandomByUser() {
-    nbNoeudFixed = $("#activeNombreNoeudDefinie").is(":checked");
-
-    if (nbNoeudFixed) {
-        nbNoeuds = parseInt($("#nbNoeudAleatoire").val());
-    }
-}
-
+//recupere le tableau de noeud
 function getArrayNoeuds(arrayNoeud) {
 
     var creeNoeud = true;
@@ -36,7 +24,9 @@ function getArrayNoeuds(arrayNoeud) {
             arrayNoeud.push(getUnNoeudAleatoire(arrayNoeud.length + 1));
         }
         else if (arrayNoeud.length >= 3 && arrayNoeud.length < 20) {
-            if ((nbNoeudFixed && arrayNoeud.length < nbNoeuds) || (!nbNoeudFixed && entierAleatoire(0, 1)))
+            //renvoie de 0 à 2 pour s'avoir si aleatoirement on ajoute encore ou non un noeud 
+            //(sachant que de 0 à 2 on laisse une chance sur 3 que cela soit false)
+            if (entierAleatoire(0, 2))
                 arrayNoeud.push(getUnNoeudAleatoire(arrayNoeud.length + 1));
             else
                 creeNoeud = false; // si le nombre aleatoire est à 0, on arrete de créé les réseaux
@@ -49,10 +39,12 @@ function getArrayNoeuds(arrayNoeud) {
     return arrayNoeud;
 }
 
+//renvoie un noeud créer avec le nbNoeud afin que le nom du noeud soit toujours unique
 function getUnNoeudAleatoire(nbNoeud) {
     return { "id": "Noeud " + nbNoeud, "group": nbNoeud };
 }
 
+//renvoi un nombre entier aleatoire situé entre le minimum inclus et le maximum inclus passé en parametre 
 function entierAleatoire(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -68,34 +60,56 @@ function getArrayLinks(arrayLinks, arrayNoeuds) {
         //on recupere le nombre de link que l'on souhaite créé (aleatoirement) pour ce reseau
         var nbLinkToCreate = entierAleatoire(1, 5);
 
-        //pour chacun de ces liens 
-        for (var j = 0; j < nbLinkToCreate; j++) {
-            //on recupere un nombre aleatoire permettant de pointer le noeud que l'on souhaite (qui est different de celui du noeud actuel)
-            var nbNoeudToLink = getEntierAleatoireDifferentDe(i, 0, arrayNoeuds.length - 1);
+        //on realise un do while pour s'assurer que chaque noeud contiendra bien au minimum une liaison
+        do {
 
-            //on crée le json de liaison
-            var link = {
-                source: arrayNoeuds[i].id,
-                target: arrayNoeuds[nbNoeudToLink].id,
-                distance: entierAleatoire(1, 9) //ponderation des arcs
+            //pour chacun de ces liens 
+            for (var j = 0; j < nbLinkToCreate; j++) {
+
+                //on recupere un nombre aleatoire permettant de pointer le noeud que l'on souhaite (qui est different de celui du noeud actuel)
+                var nbNoeudToLink = getEntierAleatoireDifferentDe(i, 0, arrayNoeuds.length - 1);
+
+                //on crée le json de liaison
+                var link = {
+                    source: arrayNoeuds[i].id,
+                    target: arrayNoeuds[nbNoeudToLink].id,
+                    distance: entierAleatoire(1, 9) //ponderation des arcs, on genere la distance de 1 à 9
+                }
+
+                //on s'assure que les noeuds que l'on va linké n'ont pas trop de liaison (5 max pour chacun) + on s'assure que la liaison n'existe pas deja
+                if (cloneArrayNoeud[i].nbLink < 5 && cloneArrayNoeud[nbNoeudToLink].nbLink < 5 && testIfLiaisonExiste(arrayLinks, link)) {
+
+                    //on crée les links
+                    arrayLinks.push(link);
+
+                    //on ajoute 1 au nb de link
+                    cloneArrayNoeud[i].nbLink++;
+                    cloneArrayNoeud[nbNoeudToLink].nbLink++;
+                }
             }
 
-            //on s'assure que les noeuds que l'on va linké n'ont pas trop de liaison (5 max pour chacun) + on s'assure que la liaison n'existe pas deja
-            if (cloneArrayNoeud[i].nbLink < 5 && cloneArrayNoeud[nbNoeudToLink].nbLink < 5 && testIfLiaisonExiste(arrayLinks, link)) {
-                //on crée les links
-                arrayLinks.push(link);
-
-                //on ajoute 1 au nb de link
-                cloneArrayNoeud[i].nbLink++;
-                cloneArrayNoeud[nbNoeudToLink].nbLink++;
-            }
-        }
+        //tant que le noeud n'a pas au moins une liaison, on recommence le process
+        }while(!liaisonExistForThisNode(arrayLinks, arrayNoeuds[i]));
     }
 
     return arrayLinks;
 }
 
-//on test si la liaison existe deja ou non dans le code
+//renvoie vrai si au moins une liaison a été trouvé par rapport au noeud passé en parametre
+function liaisonExistForThisNode(arrayLinks, node){
+    var nom = node.id;
+
+    for(var i = 0; i < arrayLinks.length; i++){
+        var link = arrayLinks[i];
+        if(link.source == nom || link.target == nom){
+            return true;
+        }
+    }
+
+    return false;
+}
+
+//on test si la liaison existe deja ou non dans le code (renvoie true si la liaison n'existe pas)
 function testIfLiaisonExiste(arrayLink, link) {
 
     for (var i = 0; i < arrayLink.length; i++) {
@@ -107,6 +121,7 @@ function testIfLiaisonExiste(arrayLink, link) {
     return true;
 }
 
+//renvoie un entier aleatoire different de l'entier passé en parametre
 function getEntierAleatoireDifferentDe(differentDe, min, max) {
     var different = false;
     var nbAleatoire = null;
@@ -120,6 +135,7 @@ function getEntierAleatoireDifferentDe(differentDe, min, max) {
     } while (!different);
 }
 
+//renvoie un clone du tableau passé en parametre
 function getCloneArrayNoeudWithNbLinkAt0(arrayToClone) {
 
     var arrayToReturn = [];
@@ -133,82 +149,4 @@ function getCloneArrayNoeudWithNbLinkAt0(arrayToClone) {
     }
 
     return arrayToReturn;
-}
-
-function calculPonderationDesArcs(json){
-
-    var ponderation = -1;
-
-    //on recupere le nombre de noeud ayant x liaisons puis on calcule la pondération
-    var jsonForPonderation = getNbLienForNoeuds(json);
-    
-    //calcule de la ponderation
-    ponderation = (
-                    (1*jsonForPonderation.noeudWith1Lien)+
-                    (2*jsonForPonderation.noeudWith2Lien)+
-                    (3*jsonForPonderation.noeudWith3Lien)+
-                    (4*jsonForPonderation.noeudWith4Lien)+
-                    (5*jsonForPonderation.noeudWith5Lien)
-                  )/(jsonForPonderation.noeudWith1Lien +
-                     jsonForPonderation.noeudWith2Lien +
-                     jsonForPonderation.noeudWith3Lien +
-                     jsonForPonderation.noeudWith4Lien +
-                     jsonForPonderation.noeudWith5Lien);
-
-    console.log("ponderation : " + ponderation);
-
-    //si le calcul de pondération est plus petit que 1 ou plus grand que 9 on renvoie false
-    return (ponderation >= 1 && ponderation <= 9);
-
-}
-
-function getNbLienForNoeuds(json){
-
-    var jsonForPonderation = {
-        noeudWith1Lien: 0,
-        noeudWith2Lien: 0,
-        noeudWith3Lien: 0,
-        noeudWith4Lien: 0,
-        noeudWith5Lien: 0
-    }
-
-    //pour chaque noeud on va compter son nombre de liaison
-    for(var i = 0; i < json.nodes.length; i++){
-
-        var node = json.nodes[i];
-        var nbLiens = 0;
-
-        for(var j = 0; j < json.links.length; j++){
-
-            var link = json.links[j];
-
-            if(link.source == node.id || link.target == node.id)
-                nbLiens++;
-        }
-
-        //en fonction du nb de lien, on ajoute 1 dans le bon champ
-        switch(nbLiens){
-            case 1:
-                jsonForPonderation.noeudWith1Lien++;
-                break;
-            case 2:
-                jsonForPonderation.noeudWith2Lien++;
-                break;
-            case 3:
-                jsonForPonderation.noeudWith3Lien++;
-                break;
-            case 4:
-                jsonForPonderation.noeudWith4Lien++;
-                break;
-            case 5:
-                jsonForPonderation.noeudWith5Lien++;
-                break;
-            default:
-                break;
-        }
-
-    }
-
-    return jsonForPonderation;
-
 }
