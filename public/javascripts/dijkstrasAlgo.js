@@ -69,10 +69,14 @@ let findShortestPath = (graph, startNode, endNode) => {
         node = shortestDistanceNode(distances, visited);
     }
 
+    console.log("distances : ", distances);
+    console.log("parents : ", parents);
+
     // utiliser les chemins stockés du nœud de départ au nœud d'arrivée.
     // enregistrer le chemin le plus court
     let shortestPath = [endNode];
     let parent = parents[endNode];
+
     while (parent) {
         shortestPath.push(parent);
         parent = parents[parent];

@@ -320,11 +320,13 @@ function launchPathColor() {
             switch (choixAlgo) {
                 case "dijkstras":
                     var completePath = findShortestPath(getGraphForDijkstrasAlgo(jsonGraphActual), noeud1, noeud2);
+                    console.log(completePath);
                     var linksToColor = getLinksToColor(completePath);
                     launchIntervalAlgorithmColor(linksToColor);
                     break;
-                case "potentielTache" :
-                    var completePath = findShortestPath(getGraphForPotentielTacheAlgo(jsonGraphActual), noeud1, noeud2);
+                case "plusProcheVoisin" :
+                    var completePath = findPlusProcheVoisinPath(getGraphForPlusProcheVoisinAlgo(jsonGraphActual), noeud1, noeud2);
+                    console.log(completePath);
                     var linksToColor = getLinksToColor(completePath);
                     launchIntervalAlgorithmColor(linksToColor);
                     break;
